@@ -1,47 +1,54 @@
+import { useState } from 'react';
 import { useRef } from 'react';
 
 import styles from './Timer.module.css';
 
 export default function Timer() {
-    // const [startTime, setStartTime] = useState(null);
-    // const [currentTime, setCurrentTime] = useState(new Date());
-
     const hoursInput = useRef(null)
     const minutesInput = useRef(null)
     const secondsInput = useRef(null)
     const intervalName = useRef(null)
-    const seconds = useRef(null)
-    const minutes = useRef(null)
-    const hours = useRef(null)
     let startTime = useRef(null)
     let currentTime = useRef(null)
+    let pauseTime = useRef(null)
+
+    const [isPaused, setIsPaused] = useState(false);
 
 
     function handleStart() {
-
         if (!startTime.current) {
             startTime.current = new Date();
         }
 
         clearInterval(intervalName.current);
         intervalName.current = setInterval(() => {
-            currentTime.current = new Date();
-            let diffTime = currentTime.current - startTime.current;
-
-            // console.log(secondsInput.current);
-
-
-            timerHandler(hoursInput, minutesInput, secondsInput, diffTime);
+            console.log(isPaused)
+            if (!isPaused) {
+                currentTime.current = new Date();
+                let diffTime = currentTime.current - startTime.current;
+                timerHandler(hoursInput, minutesInput, secondsInput, diffTime);
+            }
         }, 1000);
     }
 
     function handleStop() {
         clearInterval(intervalName.current);
-        // hours.current.value = 0
-        // minutes.current.value = 0
-        // seconds.current.value = 0
+        hoursInput.current.value = addZero(0)
+        minutesInput.current.value = addZero(0)
+        secondsInput.current.value = addZero(0)
     }
 
+    function pauseTimer() {
+        setIsPaused(true);
+        pauseTime.current = currentTime.current;
+        // clearInterval(intervalName.current);
+    }
+
+    function resumeTimer() {
+        setIsPaused(false);
+        currentTime.current = pauseTime.current;
+    }
+    console.log(isPaused)
     return (
         <div className={styles.timerBlock}>
             <div className={styles.timerBlock__inner}>
@@ -57,7 +64,8 @@ export default function Timer() {
             </div>
             <div className={styles.timerBlock__contols}>
                 <button onClick={handleStart}>Start</button>
-                <button>Pause</button>
+                <p>{isPaused}</p>
+                <button onClick={isPaused ? resumeTimer : pauseTimer}>{isPaused ? "Resume" : "Pause"}</button>
                 <button onClick={handleStop}>Reset</button>
             </div>
         </div>
@@ -65,7 +73,6 @@ export default function Timer() {
 }
 
 const timerHandler = (hours, minutes, seconds, diffTime) => {
-    console.log()
     seconds.current.value = addZero(parseInt(diffTime / 1000) % 60);
     minutes.current.value = addZero(parseInt(diffTime / 1000 / 60) % 60);
     hours.current.value = addZero(parseInt(diffTime / 1000 / 60 / 60) % 24);
