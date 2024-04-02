@@ -1,0 +1,10 @@
+.container {
+    height: 100%;
+    max-width: 1340px;
+    padding: 0 40px;
+    margin: 0 auto;
+}
+.timerBody {
+    background-color: rebeccapurple;
+    height: 100vh;
+}

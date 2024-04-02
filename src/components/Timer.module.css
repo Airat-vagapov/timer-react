@@ -1,0 +1,54 @@
+.timerBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.timerBlock__inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.timerBlock__inner input {
+    width: 220px;
+    height: 220px;
+    padding: 20px;
+    text-align: center;
+    font-size: 160px;
+    border-radius: 12px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.timerBlock__inner input:focus {
+    -webkit-box-shadow: 0px 0px 49px 16px rgba(128, 128, 128, 0.52);
+    -moz-box-shadow: 0px 0px 49px 16px rgba(128, 128, 128, 0.52);
+    box-shadow: 0px 0px 49px 16px rgba(128, 128, 128, 0.52);
+    outline: none;
+}
+
+.timerBlock__contols {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.timerBlock__contols button {
+    color: inherit;
+    background-color: #fff;
+    border: none;
+    padding: 20px 24px;
+    font-size: 20px;
+    color: #000;
+    border-radius: 8px;
+    cursor: pointer;
+}
