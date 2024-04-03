@@ -27,11 +27,7 @@ export default function Timer() {
         clearInterval(intervalName.current);
         intervalName.current = setInterval(() => {
             if (!isPaused.current) {
-
-                console.log(pauseTime.current)
                 if (pauseTime.current) {
-                    // pauseTime.current = currentTime.current
-                    // currentTime.current = pauseTime.current + 1000;
                     currentTime.current += 1000;
                 } else {
                     currentTime.current = new Date().getTime();
