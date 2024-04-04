@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import styles from './Timer.module.css';
 
 export default function Timer() {
+    const [isTimerStarted, setIsTimerStarted] = useState(false);
     const [isPausedStatus, setIsPausedStatus] = useState(false);
 
     const hoursInput = useRef(null)
@@ -16,17 +17,16 @@ export default function Timer() {
     let isPaused = useRef(false)
 
 
-
     function handleStart(isPaused) {
+        setIsTimerStarted(true);
         if (!startTime.current) {
             startTime.current = new Date().getTime();
         }
 
-
-
         clearInterval(intervalName.current);
         intervalName.current = setInterval(() => {
             if (!isPaused.current) {
+                
                 if (pauseTime.current) {
                     currentTime.current += 1000;
                 } else {
@@ -58,6 +58,11 @@ export default function Timer() {
         hoursInput.current.value = addZero(0)
         minutesInput.current.value = addZero(0)
         secondsInput.current.value = addZero(0)
+        setIsTimerStarted(false);
+        setIsPausedStatus(false)
+        startTime.current = null;
+        pauseTime.current = null;
+        isPaused.current = false;   
     }
 
 
@@ -75,8 +80,12 @@ export default function Timer() {
                 </div>
             </div>
             <div className={styles.timerBlock__contols}>
-                <button onClick={() => handleStart(isPaused)}>Start</button>
-                <button onClick={isPausedStatus ? resumeTimer : pauseTimer}>{isPausedStatus ? "Resume" : "Pause"}</button>
+
+                {!isTimerStarted ?
+                    <button onClick={() => handleStart(isPaused)}>Start</button> :
+                    <button onClick={isPausedStatus ? resumeTimer : pauseTimer}>{isPausedStatus ? "Resume" : "Pause"}</button>
+                }
+
                 <button onClick={handleStop}>Reset</button>
             </div>
         </div>
