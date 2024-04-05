@@ -3,7 +3,7 @@ import { useRef } from 'react';
 
 import styles from './Timer.module.css';
 
-export default function Timer() {
+export default function Timer({ onChange }) {
     const [isTimerStarted, setIsTimerStarted] = useState(false);
     const [isPausedStatus, setIsPausedStatus] = useState(false);
 
@@ -26,7 +26,7 @@ export default function Timer() {
         clearInterval(intervalName.current);
         intervalName.current = setInterval(() => {
             if (!isPaused.current) {
-                
+
                 if (pauseTime.current) {
                     currentTime.current += 1000;
                 } else {
@@ -37,6 +37,7 @@ export default function Timer() {
                 timerHandler(hoursInput, minutesInput, secondsInput, diffTime);
             }
         }, 1000);
+        onChange('started');
     }
 
     function pauseTimer() {
@@ -46,11 +47,15 @@ export default function Timer() {
             pauseTime.current = new Date().getTime();
             currentTime.current = pauseTime.current;
         }
+
+        onChange('paused');
     }
 
     function resumeTimer() {
         setIsPausedStatus(false)
         isPaused.current = !isPaused.current;
+
+        onChange('resumed');
     }
 
     function handleStop() {
@@ -62,9 +67,10 @@ export default function Timer() {
         setIsPausedStatus(false)
         startTime.current = null;
         pauseTime.current = null;
-        isPaused.current = false;   
-    }
+        isPaused.current = false;
 
+        onChange('stoped');
+    }
 
     return (
         <div className={styles.timerBlock}>
