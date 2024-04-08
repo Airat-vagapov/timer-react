@@ -1,26 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './SmallModal.module.css';
 
 export default function SmallModal({ status }) {
-    // const [showModal, setShowModal] = useState('');
+    const [showModal, setShowModal] = useState(status ? styles.active : '');
 
-    let showModal = status ? styles.active : '';
-    // status ? setShowModal(styles.active) : '';
-    console.log(showModal)
-    // if (status) {
-    // setTimeout(() => {
-    //     console.log(111)
-    //     setShowModal('')
-    //     showModal = '';
-    //     console.log(showModal)
-    // }, 2000)
-    // }
-
-    setInterval(() => {
-        console.log(showModal);
-        showModal = '';
-    }, 2000)
-
+    useEffect(() => {
+        if (status) {
+            setShowModal(styles.active);
+            const timeout = setTimeout(() => {
+                setShowModal('');
+            }, 2000);
+            return () => clearTimeout(timeout);
+        }
+    }, [status]);
 
     return (
         <div className={`${styles.smallModal} ${showModal}`}>
